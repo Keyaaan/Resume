@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kian Carlos Ruales — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #080c10;
+      --surface: #0d1117;
+      --panel: #111820;
+      --border: rgba(0,210,200,0.15);
+      --accent: #00d2c8;
+      --accent2: #ff6b2b;
+      --accent3: #7b61ff;
+      --text: #e8edf2;
+      --muted: #5a6a7a;
+      --font-display: 'Orbitron', monospace;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* ─── NOISE TEXTURE ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.6;
+    }
+
+    /* ─── GRID LINES BACKGROUND ─── */
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,210,200,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,210,200,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(8,12,16,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 300;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.25s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      padding: 0 4rem;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,210,200,0.08) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      animation: pulse-glow 4s ease-in-out infinite;
+    }
+
+    .hero-glow-2 {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,107,43,0.06) 0%, transparent 70%);
+      bottom: 10%; right: 10%;
+      pointer-events: none;
+      animation: pulse-glow 5s ease-in-out infinite reverse;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+    }
+
+    .hero-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fade-up 0.8s ease forwards 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .hero-tag::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      opacity: 0;
+      animation: fade-up 0.8s ease forwards 0.4s;
+    }
+
+    .hero-name span {
+      display: block;
+      color: var(--accent);
+      text-shadow: 0 0 60px rgba(0,210,200,0.4);
+    }
+
+    .hero-title {
+      font-family: var(--font-body);
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      font-weight: 300;
+      color: var(--muted);
+      margin-top: 1.2rem;
+      letter-spacing: 0.05em;
+      opacity: 0;
+      animation: fade-up 0.8s ease forwards 0.6s;
+    }
+
+    .hero-summary {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: #8a9ab0;
+      margin-top: 1.8rem;
+      max-width: 560px;
+      opacity: 0;
+      animation: fade-up 0.8s ease forwards 0.8s;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2.5rem;
+      opacity: 0;
+      animation: fade-up 0.8s ease forwards 1s;
+    }
+
+    .btn-primary {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--accent);
+      border: none;
+      padding: 0.85rem 2rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.25s;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    }
+
+    .btn-primary:hover {
+      background: #00f0e4;
+      box-shadow: 0 0 30px rgba(0,210,200,0.5);
+    }
+
+    .btn-secondary {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: transparent;
+      border: 1px solid rgba(0,210,200,0.4);
+      padding: 0.85rem 2rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      background: rgba(0,210,200,0.06);
+    }
+
+    /* Floating stats */
+    .hero-stats {
+      position: absolute;
+      right: 4rem;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      opacity: 0;
+      animation: fade-left 0.8s ease forwards 1.2s;
+    }
+
+    .stat-item {
+      text-align: right;
+      border-right: 2px solid var(--border);
+      padding-right: 1.5rem;
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 0.2rem;
+    }
+
+    /* ─── SECTIONS ─── */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 6rem 4rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 4rem;
+    }
+
+    .section-number {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── ABOUT ─── */
+    #about {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .about-text p {
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: #8a9ab0;
+      margin-bottom: 1.2rem;
+    }
+
+    .about-text strong { color: var(--text); font-weight: 500; }
+
+    .award-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: rgba(255,107,43,0.1);
+      border: 1px solid rgba(255,107,43,0.3);
+      color: var(--accent2);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.5rem 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .award-badge::before {
+      content: '★';
+      font-size: 0.8rem;
+    }
+
+    /* ─── COMPETENCIES ─── */
+    .competency-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .competency-card {
+      background: var(--panel);
+      padding: 1.8rem;
+      transition: background 0.25s;
+    }
+
+    .competency-card:hover { background: #151e28; }
+
+    .comp-category {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .comp-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .comp-tag {
+      font-size: 0.78rem;
+      color: #8a9ab0;
+      background: rgba(0,210,200,0.05);
+      border: 1px solid rgba(0,210,200,0.12);
+      padding: 0.3rem 0.75rem;
+      transition: all 0.2s;
+    }
+
+    .comp-tag:hover {
+      background: rgba(0,210,200,0.12);
+      border-color: rgba(0,210,200,0.35);
+      color: var(--accent);
+    }
+
+    /* ─── EXPERIENCE ─── */
+    #experience { background: var(--bg); }
+
+    .timeline {
+      position: relative;
+      padding-left: 3rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 3.5rem;
+      opacity: 0;
+      transform: translateX(-20px);
+      animation: slide-in 0.6s ease forwards;
+    }
+
+    .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+    .timeline-item:nth-child(2) { animation-delay: 0.25s; }
+    .timeline-item:nth-child(3) { animation-delay: 0.4s; }
+    .timeline-item:nth-child(4) { animation-delay: 0.55s; }
+
+    .timeline-dot {
+      position: absolute;
+      left: -3.4rem;
+      top: 0.4rem;
+      width: 10px;
+      height: 10px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 12px var(--accent);
+    }
+
+    .timeline-period {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-role {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.3rem;
+    }
+
+    .timeline-org {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.9rem;
+      font-style: italic;
+    }
+
+    .timeline-desc {
+      list-style: none;
+    }
+
+    .timeline-desc li {
+      font-size: 0.875rem;
+      color: #8a9ab0;
+      line-height: 1.8;
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .timeline-desc li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    /* ─── SKILLS ─── */
+    #skills {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .skills-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+
+    .skill-group-title {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent2);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(255,107,43,0.2);
+    }
+
+    .skill-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .skill-name {
+      font-size: 0.82rem;
+      color: var(--text);
+      min-width: 160px;
+    }
+
+    .skill-bar {
+      flex: 1;
+      height: 3px;
+      background: rgba(255,255,255,0.06);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-fill {
+      height: 100%;
+      background: linear-gradient(to right, var(--accent), #7b61ff);
+      width: 0;
+      animation: fill-bar 1.2s ease forwards 0.5s;
+    }
+
+    @keyframes fill-bar {
+      to { width: var(--w); }
+    }
+
+    /* ─── ACHIEVEMENTS ─── */
+    #achievements { background: var(--bg); }
+
+    .achievement-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .achievement-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+      clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+    }
+
+    .achievement-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,210,200,0.05), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .achievement-card:hover { border-color: rgba(0,210,200,0.4); transform: translateY(-4px); }
+    .achievement-card:hover::before { opacity: 1; }
+
+    .achievement-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .achievement-title {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .achievement-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .achievement-year {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--accent);
+      margin-top: 1rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* ─── CONTACT ─── */
+    #contact {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .contact-inner {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .contact-heading {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-heading span { color: var(--accent); }
+
+    .contact-sub {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 3rem;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border: 1px solid var(--border);
+      transition: all 0.25s;
+      text-transform: uppercase;
+    }
+
+    .contact-link:hover {
+      color: var(--accent);
+      border-color: rgba(0,210,200,0.4);
+      background: rgba(0,210,200,0.05);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--bg);
+      padding: 2rem 4rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-copy {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    .footer-tag {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    .footer-tag span { color: var(--accent); }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fade-left {
+      from { opacity: 0; transform: translate(30px, -50%); }
+      to   { opacity: 1; transform: translate(0, -50%); }
+    }
+
+    @keyframes slide-in {
+      from { opacity: 0; transform: translateX(-20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      #hero { padding: 0 1.5rem; }
+      .hero-stats { display: none; }
+      section { padding: 4rem 1.5rem; }
+      .about-grid, .skills-layout, .achievement-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .competency-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">KCR</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#achievements">Achievements</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow-2"></div>
+
+  <div class="hero-content">
+    <div class="hero-tag">Available for opportunities</div>
+    <h1 class="hero-name">
+      Kian Carlos<br>
+      <span>Ruales</span>
+    </h1>
+    <p class="hero-title">Aeronautical Engineer &nbsp;·&nbsp; Multimedia Specialist</p>
+    <p class="hero-summary">
+      Engineering graduate and multimedia artist bridging the gap between technical precision and high-impact visual communication. National Philippine CanSatellite Award recipient. Expert in VFX, 3D design, and layout artistry.
+    </p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn-primary">Get In Touch</a>
+      <a href="#experience" class="btn-secondary">View Work</a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-number">5+</div>
+      <div class="stat-label">Years Creative Work</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">Top 7</div>
+      <div class="stat-label">Academic Citation</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">9th</div>
+      <div class="stat-label">MathStat Intercollegiate</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header">
+    <span class="section-number">01</span>
+    <h2 class="section-title">About</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-text">
+      <p>
+        I'm an <strong>Aeronautical Engineering graduate</strong> from Cebu Aeronautical Technical School with a rare dual specialization in engineering and multimedia production. My work lives at the intersection of structural rigor and creative vision.
+      </p>
+      <p>
+        From conducting <strong>360° routine checks and MR1/MR2 reports</strong> as a Line Maintenance Intern at AirAsia to leading award-winning satellite engineering projects — I bring the same analytical mindset to every creative challenge.
+      </p>
+      <p>
+        As a <strong>Multimedia Virtual Assistant and freelancer since 2019</strong>, I've built a diverse portfolio spanning VFX, video production, logo design, event documentation, and publication layout. I don't just create — I lead teams and define the visual language of entire projects.
+      </p>
+      <div class="award-badge">National Philippine CanSatellite Award — Highest Technical Advancement</div>
+    </div>
+
+    <div>
+      <div class="competency-grid">
+        <div class="competency-card">
+          <div class="comp-category">Engineering</div>
+          <div class="comp-items">
+            <span class="comp-tag">CAD</span>
+            <span class="comp-tag">3D Structural Design</span>
+            <span class="comp-tag">Aerodynamics</span>
+            <span class="comp-tag">Satellite Technology</span>
+            <span class="comp-tag">3D Printing</span>
+          </div>
+        </div>
+        <div class="competency-card">
+          <div class="comp-category">Multimedia</div>
+          <div class="comp-items">
+            <span class="comp-tag">VFX</span>
+            <span class="comp-tag">Film Editing</span>
+            <span class="comp-tag">Photo Manipulation</span>
+            <span class="comp-tag">Color Grading</span>
+            <span class="comp-tag">Layout Design</span>
+          </div>
+        </div>
+        <div class="competency-card">
+          <div class="comp-category">Software</div>
+          <div class="comp-items">
+            <span class="comp-tag">Adobe Creative Suite</span>
+            <span class="comp-tag">CAD Software</span>
+            <span class="comp-tag">Audio Tools</span>
+            <span class="comp-tag">MS Office</span>
+          </div>
+        </div>
+        <div class="competency-card">
+          <div class="comp-category">Production</div>
+          <div class="comp-items">
+            <span class="comp-tag">Technical Rendering</span>
+            <span class="comp-tag">3D Rendering</span>
+            <span class="comp-tag">Video Templates</span>
+            <span class="comp-tag">File Conversion</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header">
+    <span class="section-number">02</span>
+    <h2 class="section-title">Experience</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-period">2019 — Present</div>
+      <div class="timeline-role">Multimedia Virtual Assistant & Freelancer</div>
+      <div class="timeline-org">Independent / Various Clients</div>
+      <ul class="timeline-desc">
+        <li>Execute full-scale video editing including VFX, movie rendering, and clip enhancement for diverse clients.</li>
+        <li>Develop logos and graphic assets using advanced photo manipulation and color grading techniques.</li>
+        <li>Facilitate photography and videography for religious, sports, and ceremonial events.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-period">2023 — 2025</div>
+      <div class="timeline-role">Executive Layout Artist & Video Editor</div>
+      <div class="timeline-org">CATS — Cebu Aeronautical Technical School</div>
+      <ul class="timeline-desc">
+        <li>Managed departmental postings and event graphics for the university.</li>
+        <li>Produced high-quality trailers and short films for university competitions.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-period">June — August 2024</div>
+      <div class="timeline-role">Line Maintenance Intern</div>
+      <div class="timeline-org">Asia Digital Engineering — AirAsia</div>
+      <ul class="timeline-desc">
+        <li>Conducted 360° routine checks on commercial aircraft.</li>
+        <li>Prepared and filed MR1 and MR2 maintenance reports.</li>
+        <li>Performed daily checks ensuring airworthiness compliance.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-period">2018 — 2019</div>
+      <div class="timeline-role">Head Layout Artist</div>
+      <div class="timeline-org">La Salle Yearbook</div>
+      <ul class="timeline-desc">
+        <li>Led the editing team to conceptualize and enforce a uniform design theme for the annual publication.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header">
+    <span class="section-number">03</span>
+    <h2 class="section-title">Technical Skills</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="skills-layout">
+    <div>
+      <div class="skill-group-title">Engineering & Design</div>
+      <div class="skill-row">
+        <span class="skill-name">3D Structural Design</span>
+        <div class="skill-bar"><div class="skill-fill" style="--w: 92%"></div></div>
+      </div>
+      <div class="skill-row">
+        <span class="skill-name">CAD Software</span>
+        <div class="skill-bar"><div class="skill-fill" style="--w: 88%"></div></div>
+      </div>
+      <div class="skill-row">
+        <span class="skill-name">3D Printing</span>
+        <div class="skill-bar"><div class="skill-fill" style="--w: 82%"></div></div>
+      </div>
+      <div class="skill-row">
+        <span class="skill-name">Aerodynamics</span>
+        <div class="skill-bar"><div class="skill-fill" style="--w: 85%"></div></div>
+      </div>
+      <div class="skill-row">
+        <span class="skill-name">Technical Rendering</span>
+        <div class="skill-bar"><div class="skill-fill" style="--w: 78%"></div></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="skill-group-title">Multimedia & Creative</div>
+      <div class="skill-row">
+        <span class="skill-name">Adobe Creative Suite</span>
+        <div class="skill-bar"><div class="skill-fill" style="--w: 95%"></div></div>
+      </div>
+      <div class="skill-row">
+        <span class="skill-name">VFX & Video Editing</span>
+        <div class="skill-bar"><div class="skill-fill" style="--w: 93%"></div></div>
+      </div>
+      <div class="skill-row">
+        <span class="skill-name">Photo Manipulation</span>
+        <div class="skill-bar"><div class="skill-fill" style="--w: 90%"></div></div>
+      </div>
+      <div class="skill-row">
+        <span class="skill-name">Layout Design</span>
+        <div class="skill-bar"><div class="skill-fill" style="--w: 92%"></div></div>
+      </div>
+      <div class="skill-row">
+        <span class="skill-name">Color Grading</span>
+        <div class="skill-bar"><div class="skill-fill" style="--w: 88%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="section-header">
+    <span class="section-number">04</span>
+    <h2 class="section-title">Achievements</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="achievement-grid">
+    <div class="achievement-card">
+      <div class="achievement-icon">🛰️</div>
+      <div class="achievement-title">Philippine CanSatellite Competition</div>
+      <div class="achievement-desc">Rocket Engineer on the national CanSatellite team, contributing to satellite design and launch operations.</div>
+      <div class="achievement-year">July 2025</div>
+    </div>
+
+    <div class="achievement-card">
+      <div class="achievement-icon">🏆</div>
+      <div class="achievement-title">Highest Technical Advancement Award</div>
+      <div class="achievement-desc">National recognition for outstanding technical achievement in the Philippine CanSatellite program.</div>
+      <div class="achievement-year">April 2025</div>
+    </div>
+
+    <div class="achievement-card">
+      <div class="achievement-icon">🎓</div>
+      <div class="achievement-title">Academic Citation — Top 7</div>
+      <div class="achievement-desc">Recognized among the top 7 students for academic excellence in Aeronautical Engineering.</div>
+      <div class="achievement-year">July 2025</div>
+    </div>
+
+    <div class="achievement-card">
+      <div class="achievement-icon">✈️</div>
+      <div class="achievement-title">AirAsia Line Maintenance Intern</div>
+      <div class="achievement-desc">Hands-on experience at Asia Digital Engineering, performing aircraft checks and maintenance reporting.</div>
+      <div class="achievement-year">June – Aug 2024</div>
+    </div>
+
+    <div class="achievement-card">
+      <div class="achievement-icon">📐</div>
+      <div class="achievement-title">MathStat Intercollegiate Quiz Bowl</div>
+      <div class="achievement-desc">Placed 9th in a competitive intercollegiate mathematics and statistics competition.</div>
+      <div class="achievement-year">2024</div>
+    </div>
+
+    <div class="achievement-card">
+      <div class="achievement-icon">🎨</div>
+      <div class="achievement-title">Head Layout Artist — La Salle Yearbook</div>
+      <div class="achievement-desc">Led the visual design team to create a cohesive publication theme for the annual La Salle yearbook.</div>
+      <div class="achievement-year">2018 – 2019</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <h2 class="contact-heading">Let's <span>Connect</span></h2>
+    <p class="contact-sub">
+      Whether you need an aeronautical engineer, a multimedia specialist, or someone who can do both — I'm ready to bring your vision to life.
+    </p>
+    <div class="contact-links">
+      <a href="mailto:rualeskiancarlos@gmail.com" class="contact-link">
+        ✉ rualeskiancarlos@gmail.com
+      </a>
+      <a href="https://www.linkedin.com/in/kian-carlos-ruales-80a3aa389/" class="contact-link">
+        ↗ LinkedIn
+      </a>
+      <a href="https://drive.google.com/file/d/19iCG0GnNnULJOqEW9VYNG38QlMWLObMn/view" class="contact-link">
+        ⬡ Portfolio
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-copy">© 2025 Kian Carlos Ruales. All rights reserved.</span>
+  <span class="footer-tag">Aeronautical Engineer · <span>Multimedia Specialist</span></span>
+</footer>
+
+</body>
+</html>
