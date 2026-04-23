@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kian Carlos Ruales — Aeronautical Engineer & Multimedia Specialist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:            #080710;
+      --bg-alt:        #0c0b18;
+      --bg-deep:       #060510;
+      --border:        rgba(255,255,255,0.07);
+      --border-bright: rgba(255,255,255,0.13);
+      --text:          #ede8f7;
+      --text-muted:    #9488b4;
+      --text-dim:      #4e4468;
+      --gold:          #c9a96e;
+      --gold2:         #e8c98a;
+      --gold-dim:      rgba(201,169,110,0.18);
+      --gold-glow:     rgba(201,169,110,0.25);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Mono', monospace;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── PER-SECTION BACKGROUNDS ─── */
+    .section-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+
+    #hero { position: relative; }
+    #hero .section-bg { background: radial-gradient(ellipse 80% 60% at 68% 42%, rgba(74,60,130,0.22) 0%, transparent 70%), radial-gradient(ellipse 50% 50% at 18% 80%, rgba(74,158,175,0.09) 0%, transparent 60%), #080710; }
+
+    #experience { position: relative; }
+    #experience .section-bg {
+      background: linear-gradient(rgba(201,169,110,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(201,169,110,0.03) 1px, transparent 1px), radial-gradient(ellipse 70% 60% at 8% 50%, rgba(74,60,130,0.14) 0%, transparent 70%), #0a0918;
+      background-size: 60px 60px, 60px 60px, 100% 100%;
+    }
+
+    #about { position: relative; }
+    #about .section-bg { background: radial-gradient(ellipse 70% 70% at 92% 50%, rgba(74,158,175,0.11) 0%, transparent 65%), radial-gradient(ellipse 50% 50% at 8% 30%, rgba(120,80,200,0.10) 0%, transparent 60%), #07060f; }
+
+    #education { position: relative; }
+    #education .section-bg { background: linear-gradient(135deg, rgba(201,169,110,0.07) 0%, transparent 50%), radial-gradient(ellipse 60% 80% at 82% 50%, rgba(201,169,110,0.06) 0%, transparent 60%), #090812; }
+
+    #skills { position: relative; }
+    #skills .section-bg { background: repeating-linear-gradient(135deg, rgba(74,158,175,0.03) 0px, rgba(74,158,175,0.03) 1px, transparent 1px, transparent 40px), radial-gradient(ellipse 60% 60% at 50% 100%, rgba(74,60,130,0.18) 0%, transparent 70%), #08070f; }
+
+    #contact { position: relative; }
+    #contact .section-bg { background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(201,169,110,0.09) 0%, transparent 60%), radial-gradient(ellipse 60% 60% at 0% 100%, rgba(74,60,130,0.12) 0%, transparent 60%), #090810; }
+
+    /* ─── HERO STAR CANVAS ─── */
+    #starfield { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+
+    /* ─── ISLAND NAV ─── */
+    .nav-wrapper {
+      position: fixed;
+      top: 1.2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 200;
+      transition: top 0.3s;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      padding: 0.7rem 1.4rem;
+      backdrop-filter: blur(28px);
+      background: rgba(12,10,26,0.82);
+      border: 1px solid rgba(201,169,110,0.18);
+      border-radius: 100px;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04) inset;
+      white-space: nowrap;
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      color: var(--gold);
+      text-decoration: none;
+      padding-right: 0.8rem;
+      border-right: 1px solid rgba(201,169,110,0.2);
+    }
+    .nav-links { display: flex; gap: 1.6rem; list-style: none; align-items: center; }
+    .nav-links a {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ─── CONTAINER — wider, smaller side padding ─── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 3rem; position: relative; z-index: 2; }
+
+    /* ─── DIVIDERS ─── */
+    .section-divider { width: 100%; height: 1px; background: linear-gradient(to right, transparent, var(--gold-dim), transparent); position: relative; z-index: 2; }
+
+    /* ─── SECTION COMMON ─── */
+    .section-wrap { padding: 6.5rem 0; }
+    .section-header { display: flex; align-items: center; gap: 1.3rem; margin-bottom: 3.5rem; }
+    .section-num { font-size: 0.58rem; color: var(--gold); letter-spacing: 0.25em; opacity: 0.65; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: 1.9rem; font-weight: 300; color: var(--text); letter-spacing: 0.04em; }
+    .section-line { flex: 1; height: 1px; background: linear-gradient(to right, var(--border-bright), transparent); }
+
+    /* ─── HERO ─── */
+    #hero { min-height: 100vh; display: flex; align-items: center; padding-top: 5rem; }
+    .hero-inner { display: grid; grid-template-columns: 1fr 300px; gap: 5rem; align-items: center; width: 100%; }
+    .hero-label { font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.6rem; display: flex; align-items: center; gap: 0.9rem; opacity: 0; animation: fadeUp 0.8s 0.2s forwards; }
+    .hero-label::before { content: ''; display: block; width: 28px; height: 1px; background: var(--gold); }
+    .hero-name { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 6vw, 4.6rem); font-weight: 300; line-height: 1.04; letter-spacing: 0.01em; color: var(--text); margin-bottom: 0.6rem; opacity: 0; animation: fadeUp 0.8s 0.35s forwards; }
+    .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1rem, 2.5vw, 1.3rem); font-weight: 300; font-style: italic; color: var(--gold); margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.8s 0.5s forwards; }
+    .hero-summary { font-size: 0.76rem; line-height: 1.95; color: var(--text-muted); max-width: 520px; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.8s 0.65s forwards; }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s 0.8s forwards; }
+
+    /* ─── BUTTONS ─── */
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.72rem 1.5rem; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.63rem; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: all 0.25s; border: 1px solid transparent; }
+    .btn-primary { background: var(--gold); color: #080710; border-color: var(--gold); }
+    .btn-primary:hover { background: var(--gold2); border-color: var(--gold2); box-shadow: 0 0 28px var(--gold-glow); transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--gold); border-color: rgba(201,169,110,0.4); }
+    .btn-outline:hover { border-color: var(--gold); background: var(--gold-dim); }
+    .btn-ghost { background: transparent; color: var(--text-muted); border-color: var(--border); }
+    .btn-ghost:hover { color: var(--text); border-color: var(--border-bright); }
+
+    /* ─── HERO PHOTO ─── */
+    .hero-photo-wrap { opacity: 0; animation: fadeIn 1s 0.6s forwards; position: relative; width: 300px; height: 400px; flex-shrink: 0; }
+    .hero-photo-wrap::before, .hero-photo-wrap::after { content: ''; position: absolute; width: 22px; height: 22px; border-color: var(--gold); border-style: solid; z-index: 3; opacity: 0.55; }
+    .hero-photo-wrap::before { top: -5px; left: -5px; border-width: 1px 0 0 1px; }
+    .hero-photo-wrap::after  { bottom: -5px; right: -5px; border-width: 0 1px 1px 0; }
+    .corner-tr, .corner-bl { position: absolute; width: 22px; height: 22px; border-color: var(--gold); border-style: solid; z-index: 3; opacity: 0.55; }
+    .corner-tr { top: -5px; right: -5px; border-width: 1px 1px 0 0; }
+    .corner-bl { bottom: -5px; left: -5px; border-width: 0 0 1px 1px; }
+    .photo-glow { position: absolute; inset: -40px; background: radial-gradient(ellipse at center, rgba(201,169,110,0.10) 0%, transparent 70%); z-index: 1; pointer-events: none; }
+    .hero-photo { width: 300px; height: 400px; object-fit: cover; object-position: top center; display: block; border-radius: 2px; position: relative; z-index: 2; mix-blend-mode: lighten; filter: contrast(1.06) brightness(0.97); }
+
+    /* ─── EXPERIENCE ─── */
+    .exp-grid { display: flex; flex-direction: column; }
+    .exp-item { display: grid; grid-template-columns: 150px 1fr; gap: 2rem; padding: 2.2rem 0; border-bottom: 1px solid var(--border); }
+    .exp-item:first-child { border-top: 1px solid var(--border); }
+    .exp-date { font-size: 0.62rem; color: var(--text-dim); letter-spacing: 0.1em; padding-top: 0.15rem; }
+    .exp-role { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--text); margin-bottom: 0.2rem; }
+    .exp-org { font-size: 0.62rem; color: var(--gold); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.9rem; }
+    .exp-desc { font-size: 0.73rem; line-height: 1.9; color: var(--text-muted); }
+    .exp-desc li { list-style: none; padding-left: 1.1rem; position: relative; margin-bottom: 0.25rem; }
+    .exp-desc li::before { content: '—'; position: absolute; left: 0; color: var(--text-dim); }
+
+    /* ─── ACHIEVEMENTS GRID ─── */
+    .ach-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .ach-card {
+      background: var(--bg-alt);
+      padding: 1.8rem 1.6rem;
+      cursor: pointer;
+      transition: background 0.25s;
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+    .ach-card:hover { background: rgba(201,169,110,0.06); }
+    .ach-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 0; transition: opacity 0.3s; }
+    .ach-card:hover::after { opacity: 0.7; }
+    .ach-card-inner { display: flex; flex-direction: column; height: 100%; }
+    .ach-num { font-size: 0.57rem; letter-spacing: 0.22em; color: var(--gold); opacity: 0.45; margin-bottom: 0.9rem; }
+    .ach-title { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--text); margin-bottom: 0.35rem; line-height: 1.35; }
+    .ach-sub { font-size: 0.6rem; color: var(--text-dim); letter-spacing: 0.1em; }
+    .ach-hint { font-size: 0.55rem; color: var(--gold); opacity: 0; letter-spacing: 0.15em; text-transform: uppercase; margin-top: auto; padding-top: 1rem; transition: opacity 0.2s; }
+    .ach-card:hover .ach-hint { opacity: 0.55; }
+
+    /* ─── ACHIEVEMENT MODAL ─── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: rgba(4,3,12,0.88);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+    .modal {
+      background: #0e0c1e;
+      border: 1px solid rgba(201,169,110,0.22);
+      border-radius: 4px;
+      width: 100%;
+      max-width: 720px;
+      max-height: 85vh;
+      overflow-y: auto;
+      transform: translateY(20px) scale(0.98);
+      transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
+      position: relative;
+    }
+    .modal-overlay.open .modal { transform: translateY(0) scale(1); }
+
+    .modal-header {
+      padding: 2rem 2.5rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      position: sticky;
+      top: 0;
+      background: #0e0c1e;
+      z-index: 2;
+    }
+    .modal-header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0.5;
+    }
+    .modal-num { font-size: 0.57rem; letter-spacing: 0.22em; color: var(--gold); opacity: 0.5; margin-bottom: 0.5rem; }
+    .modal-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 300; color: var(--text); line-height: 1.2; }
+    .modal-sub { font-size: 0.63rem; color: var(--gold); letter-spacing: 0.12em; margin-top: 0.4rem; }
+
+    .modal-close {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      width: 34px; height: 34px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 1rem;
+      flex-shrink: 0;
+      transition: all 0.2s;
+      line-height: 1;
+    }
+    .modal-close:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+
+    .modal-body { padding: 2rem 2.5rem 2.5rem; }
+
+    /* Photo slot — single image per highlight */
+    .modal-photos {
+      display: block;
+      margin-bottom: 2rem;
+    }
+    .photo-slot {
+      aspect-ratio: 16/9;
+      width: 100%;
+      border: 1px dashed rgba(201,169,110,0.28);
+      border-radius: 2px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      background: rgba(201,169,110,0.03);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .modal-desc-label { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); opacity: 0.6; margin-bottom: 0.8rem; }
+    .modal-desc { font-size: 0.75rem; line-height: 1.9; color: var(--text-muted); }
+
+    /* ─── EDUCATION ─── */
+    .edu-card { border: 1px solid var(--border-bright); border-radius: 2px; padding: 2.5rem 3rem; display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); position: relative; overflow: hidden; }
+    .edu-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, transparent, var(--gold), transparent); }
+    .edu-degree { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 300; color: var(--text); margin-bottom: 0.4rem; }
+    .edu-school { font-size: 0.65rem; color: var(--gold); letter-spacing: 0.16em; text-transform: uppercase; }
+    .edu-badge { font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.45rem 1.1rem; border: 1px solid rgba(201,169,110,0.35); border-radius: 1px; color: var(--gold); white-space: nowrap; }
+
+    /* ─── SKILLS ─── */
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem 4rem; }
+    .skill-group-title { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.3rem; padding-bottom: 0.6rem; border-bottom: 1px solid var(--border); }
+    .skill-list { display: flex; flex-direction: column; }
+    .skill-item { font-size: 0.72rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.7rem; padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.03); transition: color 0.2s; }
+    .skill-item:hover { color: var(--text); }
+    .skill-item::before { content: ''; width: 3px; height: 3px; border-radius: 50%; background: var(--gold); flex-shrink: 0; opacity: 0.5; }
+
+    /* ─── CONTACT ─── */
+    .contact-intro { font-size: 0.75rem; line-height: 1.95; color: var(--text-muted); max-width: 520px; margin-bottom: 2.5rem; }
+    .calendly-embed { border-radius: 2px; overflow: hidden; border: 1px solid var(--border); }
+
+    /* ─── FOOTER ─── */
+    footer { position: relative; z-index: 2; padding: 2rem 0; border-top: 1px solid var(--border); background: var(--bg-deep); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+    .footer-name { font-family: 'Cormorant Garamond', serif; font-size: 0.9rem; color: var(--text-dim); font-weight: 300; letter-spacing: 0.08em; }
+    .footer-copy { font-size: 0.6rem; color: var(--text-dim); letter-spacing: 0.12em; }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.7s, transform 0.7s; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .container { padding: 0 1.8rem; }
+    }
+    @media (max-width: 768px) {
+      .nav-wrapper { top: 0.8rem; }
+      nav { padding: 0.6rem 1rem; gap: 1rem; }
+      .nav-links { gap: 1rem; }
+      .nav-links li:nth-child(n+3) { display: none; }
+      .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .hero-photo-wrap { width: 220px; height: 293px; margin: 0 auto; }
+      .hero-photo { width: 220px; height: 293px; }
+      .container { padding: 0 1.2rem; }
+      .exp-item { grid-template-columns: 1fr; gap: 0.4rem; }
+      .skills-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .ach-grid { grid-template-columns: 1fr 1fr; }
+      .edu-card { flex-direction: column; align-items: flex-start; gap: 1.2rem; padding: 1.8rem; }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .ach-grid { grid-template-columns: 1fr; }
+      .modal { max-height: 92vh; }
+      .modal-header { padding: 1.5rem 1.5rem 1.2rem; }
+      .modal-body { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ISLAND NAV -->
+<div class="nav-wrapper">
+  <nav id="nav">
+    <a href="#hero" class="nav-logo">KCR</a>
+    <ul class="nav-links">
+      <li><a href="#about">Highlights</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="section-bg"></div>
+  <canvas id="starfield"></canvas>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-label">Portfolio · 2025</div>
+        <h1 class="hero-name">Kian Carlos<br>Ruales</h1>
+        <p class="hero-title">Aeronautical Engineer &amp; Multimedia Specialist</p>
+        <p class="hero-summary">
+          Analytical and detail-oriented graduate with a proven track record in
+          multimedia production and structural design. Recipient of the National
+          Philippine CanSatellite Award — bridging complex engineering concepts
+          with high-impact visual communication.
+        </p>
+        <div class="hero-actions">
+          <a href="https://drive.google.com/file/d/19iCG0GnNnULJOqEW9VYNG38QlMWLObMn/view" class="btn btn-primary" target="_blank" rel="noopener">
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            View Portfolio
+          </a>
+          <a href="https://drive.google.com/file/d/1rELeqc2B6l0dWRkbGGHKDBK7xFQ20TS0/view?usp=sharing" class="btn btn-outline" target="_blank" rel="noopener">
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            View CV
+          </a>
+          <a href="#contact" class="btn btn-ghost">Book a Meeting ↓</a>
+        </div>
+      </div>
+      <div class="hero-photo-wrap">
+        <div class="photo-glow"></div>
+        <span class="corner-tr"></span>
+        <span class="corner-bl"></span>
+        <img src="https://i.ibb.co/kg9wrWWK/extended-png.png" alt="Kian Carlos Ruales" class="hero-photo" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-bg"></div>
+  <div class="container">
+    <div class="section-wrap">
+      <div class="section-header reveal">
+        <span class="section-num">01</span>
+        <h2 class="section-title">Experience</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="exp-grid">
+        <div class="exp-item reveal">
+          <div class="exp-date">Jun – Aug 2024</div>
+          <div>
+            <div class="exp-role">Line Maintenance Intern</div>
+            <div class="exp-org">Asia Digital Engineering · Air Asia</div>
+            <ul class="exp-desc">
+              <li>Conducted 360° routine checks across aircraft systems</li>
+              <li>Prepared MR1 and MR2 maintenance reports</li>
+              <li>Performed daily checks in compliance with aviation standards</li>
+            </ul>
+          </div>
+        </div>
+        <div class="exp-item reveal">
+          <div class="exp-date">2019 – Present</div>
+          <div>
+            <div class="exp-role">Multimedia Virtual Assistant &amp; Freelancer</div>
+            <div class="exp-org">Independent</div>
+            <ul class="exp-desc">
+              <li>Full-scale video editing including VFX, movie rendering, and clip enhancement</li>
+              <li>Logo creation, photo manipulation, and advanced color grading</li>
+              <li>Photography and videography for religious, sports, and ceremonial events</li>
+            </ul>
+          </div>
+        </div>
+        <div class="exp-item reveal">
+          <div class="exp-date">2023 – 2025</div>
+          <div>
+            <div class="exp-role">Executive Layout Artist &amp; Video Editor</div>
+            <div class="exp-org">CATS · Cebu Aeronautical Technical School</div>
+            <ul class="exp-desc">
+              <li>Managed departmental postings and event graphics</li>
+              <li>Produced high-quality trailers and shorts for university competitions</li>
+            </ul>
+          </div>
+        </div>
+        <div class="exp-item reveal">
+          <div class="exp-date">2018 – 2019</div>
+          <div>
+            <div class="exp-role">Head Layout Artist</div>
+            <div class="exp-org">La Salle Yearbook</div>
+            <ul class="exp-desc">
+              <li>Led the editing team to conceptualize and enforce a uniform design theme</li>
+              <li>Oversaw annual publication design from concept to final print</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- HIGHLIGHTS -->
+<section id="about">
+  <div class="section-bg"></div>
+  <div class="container">
+    <div class="section-wrap">
+      <div class="section-header reveal">
+        <span class="section-num">02</span>
+        <h2 class="section-title">Highlights</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="ach-grid">
+
+        <div class="ach-card reveal" data-modal="0">
+          <div class="ach-card-inner">
+            <div class="ach-num">01</div>
+            <div class="ach-title">Philippine CanSatellite Competition</div>
+            <div class="ach-sub">Rocket Engineer · Jul 2025</div>
+            <div class="ach-hint">Click to expand ↗</div>
+          </div>
+        </div>
+
+        <div class="ach-card reveal" data-modal="1">
+          <div class="ach-card-inner">
+            <div class="ach-num">02</div>
+            <div class="ach-title">Highest Technical Advancement Award</div>
+            <div class="ach-sub">CanSat National Recognition · Apr 2025</div>
+            <div class="ach-hint">Click to expand ↗</div>
+          </div>
+        </div>
+
+        <div class="ach-card reveal" data-modal="2">
+          <div class="ach-card-inner">
+            <div class="ach-num">03</div>
+            <div class="ach-title">Academic Citation — Top 7</div>
+            <div class="ach-sub">CATS · Jul 2025</div>
+            <div class="ach-hint">Click to expand ↗</div>
+          </div>
+        </div>
+
+        <div class="ach-card reveal" data-modal="3">
+          <div class="ach-card-inner">
+            <div class="ach-num">04</div>
+            <div class="ach-title">MathStat Intercollegiate Quiz Bowl</div>
+            <div class="ach-sub">9th Place · Apr 2025</div>
+            <div class="ach-hint">Click to expand ↗</div>
+          </div>
+        </div>
+
+        <div class="ach-card reveal" data-modal="4">
+          <div class="ach-card-inner">
+            <div class="ach-num">05</div>
+            <div class="ach-title">BS Aeronautical Engineering</div>
+            <div class="ach-sub">CATS · Jul 2025</div>
+            <div class="ach-hint">Click to expand ↗</div>
+          </div>
+        </div>
+
+        <div class="ach-card reveal" data-modal="5">
+          <div class="ach-card-inner">
+            <div class="ach-num">06</div>
+            <div class="ach-title">Multimedia &amp; VFX Production</div>
+            <div class="ach-sub">6+ Years Professional Experience</div>
+            <div class="ach-hint">Click to expand ↗</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENT MODAL -->
+<div class="modal-overlay" id="achModal">
+  <div class="modal" id="achModalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-num" id="mNum"></div>
+        <div class="modal-title" id="mTitle"></div>
+        <div class="modal-sub" id="mSub"></div>
+      </div>
+      <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-photos" id="mPhotos">
+        <!-- 1 photo slot generated by JS -->
+      </div>
+      <div class="modal-desc-label">About this achievement</div>
+      <div class="modal-desc" id="mDesc"></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-bg"></div>
+  <div class="container">
+    <div class="section-wrap" style="padding-bottom: 5rem;">
+      <div class="section-header reveal">
+        <span class="section-num">03</span>
+        <h2 class="section-title">Education</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="edu-card reveal">
+        <div>
+          <div class="edu-degree">BS in Aeronautical Engineering</div>
+          <div class="edu-school">Cebu Aeronautical Technical School</div>
+        </div>
+        <div class="edu-badge">Academic Citation · Top 7</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-bg"></div>
+  <div class="container">
+    <div class="section-wrap">
+      <div class="section-header reveal">
+        <span class="section-num">04</span>
+        <h2 class="section-title">Skills</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="skills-grid">
+        <div class="reveal">
+          <div class="skill-group-title">Engineering</div>
+          <div class="skill-list">
+            <div class="skill-item">CAD &amp; Structural Design</div>
+            <div class="skill-item">3D Design &amp; 3D Printing</div>
+            <div class="skill-item">Aerodynamics</div>
+            <div class="skill-item">Satellite Technology</div>
+            <div class="skill-item">Technical Rendering</div>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="skill-group-title">Multimedia</div>
+          <div class="skill-list">
+            <div class="skill-item">VFX &amp; Visual Effects</div>
+            <div class="skill-item">Movie &amp; Short Film Editing</div>
+            <div class="skill-item">Photo Manipulation</div>
+            <div class="skill-item">Color Grading</div>
+            <div class="skill-item">Layout Design</div>
+            <div class="skill-item">Video &amp; Audio Manipulation</div>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="skill-group-title">Software</div>
+          <div class="skill-list">
+            <div class="skill-item">Adobe Creative Suite</div>
+            <div class="skill-item">CAD Software</div>
+            <div class="skill-item">Microsoft Office</div>
+            <div class="skill-item">Google Workspace</div>
+            <div class="skill-item">Audio Manipulation Tools</div>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="skill-group-title">Technical</div>
+          <div class="skill-list">
+            <div class="skill-item">3D Rendering</div>
+            <div class="skill-item">File Conversion</div>
+            <div class="skill-item">Video Templates</div>
+            <div class="skill-item">Data Encoding</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-bg"></div>
+  <div class="container">
+    <div class="section-wrap">
+      <div class="section-header reveal">
+        <span class="section-num">05</span>
+        <h2 class="section-title">Book a Meeting</h2>
+        <div class="section-line"></div>
+      </div>
+      <p class="contact-intro reveal">
+        Interested in working together or just want to connect? Schedule a call directly below — I'm open to engineering consulting, multimedia projects, and creative collaborations.
+      </p>
+      <div class="calendly-inline-widget calendly-embed reveal" data-url="https://calendly.com/rualeskiancarlos/30min" style="min-width:320px; height:680px;"></div>
+      <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;" class="reveal">
+        <a href="mailto:rualeskiancarlos@gmail.com" class="btn btn-outline">rualeskiancarlos@gmail.com</a>
+        <a href="https://www.linkedin.com/in/kian-carlos-ruales-80a3aa389/" class="btn btn-ghost" target="_blank" rel="noopener">LinkedIn ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <span class="footer-name">Kian Carlos Ruales</span>
+      <span class="footer-copy">© 2025 · Aeronautical Engineer &amp; Multimedia Specialist</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<script>
+/* ── HERO STARFIELD ── */
+(function() {
+  const section = document.getElementById('hero');
+  const canvas  = document.getElementById('starfield');
+  const ctx     = canvas.getContext('2d');
+  let stars = [], W, H;
+  function resize() { W = canvas.width = section.offsetWidth; H = canvas.height = section.offsetHeight; }
+  resize();
+  window.addEventListener('resize', () => { resize(); buildStars(); });
+  function buildStars() {
+    stars = [];
+    const n = Math.floor((W * H) / 2800);
+    for (let i = 0; i < n; i++) stars.push({ x: Math.random()*W, y: Math.random()*H, r: Math.random()*1.0+0.15, a: Math.random()*0.8+0.1, speed: Math.random()*0.003+0.0008, off: Math.random()*Math.PI*2 });
+  }
+  buildStars();
+  let f = 0;
+  (function draw() {
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(s => { const p = 0.35+0.65*Math.abs(Math.sin(f*s.speed+s.off)); ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fillStyle=`rgba(220,200,255,${s.a*p*0.75})`; ctx.fill(); });
+    f++; requestAnimationFrame(draw);
+  })();
+})();
+
+/* ── SCROLL REVEAL ── */
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+/* ── ACHIEVEMENT MODAL ── */
+const achData = [
+  { num:'01', title:'Philippine CanSatellite Competition', sub:'Rocket Engineer · Jul 2025', desc:'Represented CATS in the national CanSatellite competition as the team\'s Rocket Engineer. Responsible for structural design, aerodynamic analysis, and integration of satellite payload systems within the launch vehicle.',
+    photo: 'https://i.ibb.co/VKYYbtx/image.png' /* ← replace with your image URL */ },
+  { num:'02', title:'Highest Technical Advancement Award', sub:'CanSat National Recognition · Apr 2025', desc:'Received the Highest Technical Advancement Award at the national CanSat competition, recognizing exceptional innovation and engineering precision in satellite design and telemetry systems.',
+    photo: 'https://i.ibb.co/xq6cmbM4/519041290-768346769048339-4027359721881207243-n.jpg' /* ← replace with your image URL */ },
+  { num:'03', title:'Academic Citation — Top 7', sub:'CATS · Jul 2025', desc:'Graduated with an Academic Citation, ranking in the Top 7 of the graduating class at Cebu Aeronautical Technical School. Recognized for consistent academic excellence throughout the BS Aeronautical Engineering program.',
+    photo: 'https://i.ibb.co/h1Z4QSsL/image.png' /* ← replace with your image URL */ },
+  { num:'04', title:'MathStat Intercollegiate Quiz Bowl', sub:'9th Place · Apr 2025', desc:'Competed in the MathStat Intercollegiate Quiz Bowl, placing 9th place among participating universities. Demonstrated strong analytical and quantitative reasoning skills under competitive conditions.',
+    photo: 'https://i.ibb.co/MxqT6PbF/483947069-122188737428113870-4540246266632780795-n.jpg' /* ← replace with your image URL */ },
+  { num:'05', title:'BS Aeronautical Engineering', sub:'CATS · Jul 2025', desc:'Graduated with a Bachelor of Science in Aeronautical Engineering from Cebu Aeronautical Technical School. The program covered aircraft structures, propulsion, aerodynamics, avionics, and maintenance standards.',
+    photo: 'https://i.ibb.co/sp7PthZb/630472286-1384871973653107-6322924795814226885-n.jpg' /* ← replace with your image URL */ },
+  { num:'06', title:'Multimedia & VFX Production', sub:'6+ Years Professional Experience', desc:'Over six years of freelance and professional multimedia work spanning video editing, VFX compositing, color grading, photo manipulation, and event photography. Clients include academic institutions, sports organizations, and religious communities.',
+    photo: 'https://i.ibb.co/SDv0GWc2/PORTFOLIO.png' /* ← replace with your image URL */ },
+];
+
+const overlay  = document.getElementById('achModal');
+const mNum     = document.getElementById('mNum');
+const mTitle   = document.getElementById('mTitle');
+const mSub     = document.getElementById('mSub');
+const mDesc    = document.getElementById('mDesc');
+const mPhotos  = document.getElementById('mPhotos');
+const closeBtn = document.getElementById('modalClose');
+let activeIdx  = null;
+
+function buildPhotoSlot(idx) {
+  mPhotos.innerHTML = '';
+  const slot = document.createElement('div');
+  slot.className = 'photo-slot';
+
+  const src = achData[idx].photo;
+  if (src && !src.startsWith('INSERT_')) {
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = achData[idx].title;
+    img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:2px;';
+    slot.appendChild(img);
+  } else {
+    // Placeholder shown when no href has been inserted yet
+    slot.innerHTML = `<svg style="width:32px;height:32px;opacity:0.25;color:var(--gold)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span style="font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim)">No photo added</span>`;
+  }
+
+  mPhotos.appendChild(slot);
+}
+
+function openModal(idx) {
+  const d = achData[idx];
+  activeIdx = idx;
+  mNum.textContent   = d.num;
+  mTitle.textContent = d.title;
+  mSub.textContent   = d.sub;
+  mDesc.textContent  = d.desc;
+  buildPhotoSlot(idx);
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+  activeIdx = null;
+}
+
+document.querySelectorAll('.ach-card').forEach(card => {
+  card.addEventListener('click', () => openModal(+card.dataset.modal));
+});
+closeBtn.addEventListener('click', closeModal);
+overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal(); });
+</script>
+</body>
+</html>
