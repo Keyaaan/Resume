@@ -157,26 +157,102 @@
     .exp-desc li { list-style: none; padding-left: 1.1rem; position: relative; margin-bottom: 0.25rem; }
     .exp-desc li::before { content: '—'; position: absolute; left: 0; color: var(--text-dim); }
 
-    /* ─── ACHIEVEMENTS GRID ─── */
-    .ach-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    /* ─── ACHIEVEMENTS MOSAIC ─── */
+    .ach-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: 260px 260px;
+      gap: 3px;
+    }
+    /* Make first card span 2 rows for a varied mosaic feel */
+    .ach-grid .ach-card:nth-child(1) { grid-row: span 1; }
+
     .ach-card {
-      background: var(--bg-alt);
-      padding: 1.8rem 1.6rem;
-      cursor: pointer;
-      transition: background 0.25s;
       position: relative;
       overflow: hidden;
+      cursor: pointer;
       user-select: none;
+      background: var(--bg-alt);
     }
-    .ach-card:hover { background: rgba(201,169,110,0.06); }
-    .ach-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 0; transition: opacity 0.3s; }
-    .ach-card:hover::after { opacity: 0.7; }
-    .ach-card-inner { display: flex; flex-direction: column; height: 100%; }
-    .ach-num { font-size: 0.57rem; letter-spacing: 0.22em; color: var(--gold); opacity: 0.45; margin-bottom: 0.9rem; }
-    .ach-title { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--text); margin-bottom: 0.35rem; line-height: 1.35; }
-    .ach-sub { font-size: 0.6rem; color: var(--text-dim); letter-spacing: 0.1em; }
-    .ach-hint { font-size: 0.55rem; color: var(--gold); opacity: 0; letter-spacing: 0.15em; text-transform: uppercase; margin-top: auto; padding-top: 1rem; transition: opacity 0.2s; }
-    .ach-card:hover .ach-hint { opacity: 0.55; }
+    /* Full-bleed background photo */
+    .ach-card-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.55s cubic-bezier(0.22,1,0.36,1), filter 0.55s;
+      filter: brightness(0.55) saturate(0.85);
+    }
+    .ach-card:hover .ach-card-bg {
+      transform: scale(1.06);
+      filter: brightness(0.45) saturate(1);
+    }
+    /* Gradient overlay — stronger at bottom for legibility */
+    .ach-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(6,5,16,0.92) 0%, rgba(6,5,16,0.35) 55%, transparent 100%);
+      z-index: 1;
+      transition: background 0.3s;
+    }
+    .ach-card:hover::before {
+      background: linear-gradient(to top, rgba(6,5,16,0.96) 0%, rgba(6,5,16,0.5) 60%, rgba(6,5,16,0.1) 100%);
+    }
+    /* Gold top-edge shimmer on hover */
+    .ach-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 2;
+    }
+    .ach-card:hover::after { opacity: 0.8; }
+
+    .ach-card-inner {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      height: 100%;
+      padding: 1.5rem 1.6rem;
+    }
+    .ach-num {
+      font-size: 0.52rem;
+      letter-spacing: 0.28em;
+      color: var(--gold);
+      opacity: 0.7;
+      margin-bottom: 0.5rem;
+    }
+    .ach-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 300;
+      color: #fff;
+      line-height: 1.25;
+      margin-bottom: 0.3rem;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+    }
+    .ach-sub {
+      font-size: 0.58rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.1em;
+      margin-bottom: 0;
+    }
+    .ach-hint {
+      font-size: 0.52rem;
+      color: var(--gold);
+      opacity: 0;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-top: 0.6rem;
+      transition: opacity 0.2s;
+    }
+    .ach-card:hover .ach-hint { opacity: 0.75; }
 
     /* ─── ACHIEVEMENT MODAL ─── */
     .modal-overlay {
@@ -319,12 +395,12 @@
       .container { padding: 0 1.2rem; }
       .exp-item { grid-template-columns: 1fr; gap: 0.4rem; }
       .skills-grid { grid-template-columns: 1fr; gap: 2rem; }
-      .ach-grid { grid-template-columns: 1fr 1fr; }
+      .ach-grid { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, 220px); }
       .edu-card { flex-direction: column; align-items: flex-start; gap: 1.2rem; padding: 1.8rem; }
       .footer-inner { flex-direction: column; text-align: center; }
     }
     @media (max-width: 480px) {
-      .ach-grid { grid-template-columns: 1fr; }
+      .ach-grid { grid-template-columns: 1fr; grid-template-rows: repeat(6, 200px); }
       .modal { max-height: 92vh; }
       .modal-header { padding: 1.5rem 1.5rem 1.2rem; }
       .modal-body { padding: 1.5rem; }
@@ -463,6 +539,7 @@
       <div class="ach-grid">
 
         <div class="ach-card reveal" data-modal="0">
+          <div class="ach-card-bg" id="achBg0"></div>
           <div class="ach-card-inner">
             <div class="ach-num">01</div>
             <div class="ach-title">Philippine CanSatellite Competition</div>
@@ -472,6 +549,7 @@
         </div>
 
         <div class="ach-card reveal" data-modal="1">
+          <div class="ach-card-bg" id="achBg1"></div>
           <div class="ach-card-inner">
             <div class="ach-num">02</div>
             <div class="ach-title">Highest Technical Advancement Award</div>
@@ -481,6 +559,7 @@
         </div>
 
         <div class="ach-card reveal" data-modal="2">
+          <div class="ach-card-bg" id="achBg2"></div>
           <div class="ach-card-inner">
             <div class="ach-num">03</div>
             <div class="ach-title">Academic Citation — Top 7</div>
@@ -490,6 +569,7 @@
         </div>
 
         <div class="ach-card reveal" data-modal="3">
+          <div class="ach-card-bg" id="achBg3"></div>
           <div class="ach-card-inner">
             <div class="ach-num">04</div>
             <div class="ach-title">MathStat Intercollegiate Quiz Bowl</div>
@@ -499,6 +579,7 @@
         </div>
 
         <div class="ach-card reveal" data-modal="4">
+          <div class="ach-card-bg" id="achBg4"></div>
           <div class="ach-card-inner">
             <div class="ach-num">05</div>
             <div class="ach-title">BS Aeronautical Engineering</div>
@@ -508,6 +589,7 @@
         </div>
 
         <div class="ach-card reveal" data-modal="5">
+          <div class="ach-card-bg" id="achBg5"></div>
           <div class="ach-card-inner">
             <div class="ach-num">06</div>
             <div class="ach-title">Multimedia &amp; VFX Production</div>
@@ -702,6 +784,14 @@ const achData = [
   { num:'06', title:'Multimedia & VFX Production', sub:'6+ Years Professional Experience', desc:'Over six years of freelance and professional multimedia work spanning video editing, VFX compositing, color grading, photo manipulation, and event photography. Clients include academic institutions, sports organizations, and religious communities.',
     photo: 'https://i.ibb.co/SDv0GWc2/PORTFOLIO.png' /* ← replace with your image URL */ },
 ];
+
+// Inject mosaic background photos from achData
+achData.forEach((d, i) => {
+  const bg = document.getElementById('achBg' + i);
+  if (bg && d.photo && !d.photo.startsWith('INSERT_')) {
+    bg.style.backgroundImage = `url('${d.photo}')`;
+  }
+});
 
 const overlay  = document.getElementById('achModal');
 const mNum     = document.getElementById('mNum');
